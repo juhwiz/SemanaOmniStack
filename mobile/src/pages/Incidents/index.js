@@ -8,12 +8,13 @@ import api from '../../services/api';
 import logoImg from '../../assets/logo.png'; //Importando a logo do cabeçalho
 
 import style from './styles'; //Importando o styles 
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function Incidents(){
     const [incidents, setIncidents] = useState([]);
-    const [total, setTotal] = useState(0);
-    const [page, setPage] = useState(1);
-    const [loading, setLoading] = useState(false);
+    const [total, setTotal] = useState(0); //Total de de casos
+    const [page, setPage] = useState(1); //Para carregar a página desda pág 1
+    const [loading, setLoading] = useState(false); //É para o carregamento
 
     const navigation = useNavigation();
 
@@ -22,23 +23,23 @@ export default function Incidents(){
     }
 
     async function loadIncidents(){
-        if(loading){
+        if(loading){ //Carregamento automatico part1
             return;
         }
-        if(total > 0 && incidents.length == total){
+        if(total > 0 && incidents.length == total){ //Carregamento automatico part2
             return;
         }
 
-        setLoading(true);
+        setLoading(true); //Carregamento automatico part3
 
         const response = await api.get('incidents', {
-            params: { page }
+            params: { page } //Carregamento automatico part4
         }); // pegando os incidents da api
 
         setIncidents([...incidents, ...response.data]); // colocando os incidents dentro do set incidents
         setTotal(response.headers['x-total-count']);
-        setPage(page + 1);
-        setLoading(false);
+        setPage(page + 1); //Carregamento automatico part5
+        setLoading(false); //Carregamento automatico part6
     }
 
     useEffect(() => {
@@ -46,6 +47,7 @@ export default function Incidents(){
     },[]);
 
     return(
+        
         <View style={style.container}>
 
             <View style={style.header}>
@@ -80,7 +82,7 @@ export default function Incidents(){
 
                         <TouchableOpacity 
                             style={style.detailsButton}
-                            onPress={() => navigateToDetail(incident)}
+                            onPress={() => navigateToDetail(incident)} //Enviando os dados
                         >
                             <Text style={style.detailsButtonText}>Ver mais detalhes</Text>
                             <Feather name="arrow-right" size={16} color="#E02041" />
